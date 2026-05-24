@@ -21,15 +21,21 @@ function updateAvatar(newSrc) {
     const characterImgEl = document.getElementById("character-img");
     if (!characterImgEl) return;
     
+    // Check path suffix to avoid reloading same image if relative vs absolute mismatch
     const currentSrc = characterImgEl.getAttribute("src");
     if (currentSrc === newSrc) return;
     
     characterImgEl.style.opacity = "0";
     setTimeout(() => {
-        updateAvatar(newSrc);
         characterImgEl.onload = () => {
             characterImgEl.style.opacity = "1";
         };
+        characterImgEl.src = newSrc;
+        
+        // Fallback: If image is cached, onload might not trigger, so we force opacity 1
+        if (characterImgEl.complete) {
+            characterImgEl.style.opacity = "1";
+        }
     }, 120);
 }
 
