@@ -1,3 +1,38 @@
+// --- 资源预加载与优化系统 ---
+const IMAGES_TO_PRELOAD = [
+    "./assets/director_office.webp",
+    "./assets/game_cover.webp",
+    "./assets/guide_zeng.webp",
+    "./assets/report_bg.webp",
+    "./assets/teacher_chen.webp",
+    "./assets/teacher_li.webp",
+    "./assets/teacher_wang.webp",
+    "./assets/teacher_wang_cry.webp"
+];
+
+function preloadImages() {
+    IMAGES_TO_PRELOAD.forEach(src => {
+        const img = new Image();
+        img.src = src;
+    });
+}
+
+function updateAvatar(newSrc) {
+    const characterImgEl = document.getElementById("character-img");
+    if (!characterImgEl) return;
+    
+    const currentSrc = characterImgEl.getAttribute("src");
+    if (currentSrc === newSrc) return;
+    
+    characterImgEl.style.opacity = "0";
+    setTimeout(() => {
+        updateAvatar(newSrc);
+        characterImgEl.onload = () => {
+            characterImgEl.style.opacity = "1";
+        };
+    }, 120);
+}
+
 // ==========================================================================
 // 暖心治园 RPG v4.0 逻辑脚本 - 颜老师讲稿重构版 (五天 AM/PM 10阶段交互)
 // ==========================================================================
@@ -9,7 +44,7 @@ const SCENARIOS = [
         period: "上午",
         speaker: "小李 (骨干教师)",
         character: "li",
-        avatar: "./assets/teacher_li.png",
+        avatar: "./assets/teacher_li.webp",
         dialogue: "园长，早晨亮亮妈妈神色冷漠，不接我的打招呼。我觉得她因为上周五的事，准备在家长群发难质问我，我心里乱极了……",
         abcFlow: {
             lensText: "面对潜在的冲突，引导小李戴上哪一副心智“信念眼镜”？",
@@ -53,7 +88,7 @@ const SCENARIOS = [
         period: "下午",
         speaker: "小李 (焦急万分)",
         character: "li",
-        avatar: "./assets/teacher_li.png",
+        avatar: "./assets/teacher_li.webp",
         dialogue: "园长！下午亮亮妈妈还是在家长群发难了，质问我们为什么亮亮衣服上有泥点、是不是偏心。群里全是刷屏，我该怎么回？",
         minigame: {
             type: "temperature",
@@ -82,7 +117,7 @@ const SCENARIOS = [
         period: "上午",
         speaker: "小王 (新入职教师)",
         character: "wang",
-        avatar: "./assets/teacher_wang.png",
+        avatar: "./assets/teacher_wang.webp",
         dialogue: "园长，这周四就是全园公开日了。我带完班还要填无数张纸质观察表，晚上还要熬夜做环创。我感觉自己像个打卡机器人，好累好焦虑……",
         minigame: {
             type: "maslow",
@@ -111,7 +146,7 @@ const SCENARIOS = [
         period: "下午",
         speaker: "小王 (强颜欢笑)",
         character: "wang",
-        avatar: "./assets/teacher_wang.png",
+        avatar: "./assets/teacher_wang.webp",
         dialogue: "（小王站在门口迎接家长离园，亮亮妈妈因为周一的怨气还没消，故意挑剔亮亮鞋子穿反了，小王强颜欢笑地道歉，指关节都捏白了……）",
         minigame: {
             type: "battery",
@@ -140,7 +175,7 @@ const SCENARIOS = [
         period: "上午",
         speaker: "陈老师 (资深教师)",
         character: "chen",
-        avatar: "./assets/teacher_chen.png",
+        avatar: "./assets/teacher_chen.webp",
         dialogue: "园长，明天公开日彩排我是总调度，但我孩子突然发高烧39.5度。我想请半天假，但彩排又这么重要……我不知道该怎么办了……",
         minigame: {
             type: "scale",
@@ -169,7 +204,7 @@ const SCENARIOS = [
         period: "下午",
         speaker: "副手小张 (急得跳脚)",
         character: "li",
-        avatar: "./assets/teacher_li.png",
+        avatar: "./assets/teacher_li.webp",
         dialogue: "园长！彩排现场乱成一锅粥了，音乐播错、路线走偏，小王完全压不住场，亮亮妈妈等几个家长也开始抱怨了，我该怎么办？",
         minigame: {
             type: "crisis",
@@ -198,7 +233,7 @@ const SCENARIOS = [
         period: "上午",
         speaker: "小王 (极度虚脱)",
         character: "wang",
-        avatar: "./assets/teacher_wang.png",
+        avatar: "./assets/teacher_wang.webp",
         dialogue: "公开日非常成功，家长们交口称赞。但我发现小王正呆坐在空无一人的教室里，眼神空洞无光，对外界几乎没有反应……",
         minigame: {
             type: "burnout",
@@ -227,7 +262,7 @@ const SCENARIOS = [
         period: "下午",
         speaker: "小王 (情绪崩溃)",
         character: "wang_cry",
-        avatar: "./assets/teacher_wang_cry.png",
+        avatar: "./assets/teacher_wang_cry.webp",
         dialogue: "（小王独自躲在教研室，双肩微微颤抖地抽泣。看到你进门，她慌乱抹干眼泪低下头，有些不知所措……）",
         minigame: {
             type: "breath",
@@ -256,7 +291,7 @@ const SCENARIOS = [
         period: "上午",
         speaker: "小李 (历练后的成长)",
         character: "li",
-        avatar: "./assets/teacher_li.png",
+        avatar: "./assets/teacher_li.webp",
         dialogue: "园长，群风波后我想通了。下周我想试点自主活动，解放老师的控场心力。但可能会有家长担心安全，可以吗？",
         minigame: {
             type: "safeguard",
@@ -285,7 +320,7 @@ const SCENARIOS = [
         period: "下午",
         speaker: "颜老师 (总结指导)",
         character: "guide_zeng",
-        avatar: "./assets/guide_zeng.png",
+        avatar: "./assets/guide_zeng.webp",
         dialogue: "园长们，这一周的惊涛骇浪表明，教师心理健康是保教工作的压舱石。我们在园内设立了匿名情绪树洞信箱，现在收到了一封来信：",
         minigame: {
             type: "treehouse",
@@ -531,7 +566,7 @@ function showScenario(index) {
     if (currentPeriodEl) currentPeriodEl.innerText = scene.period;
     if (speakerNameEl) speakerNameEl.innerText = scene.speaker;
     if (dialogueTextEl) dialogueTextEl.innerHTML = scene.dialogue;
-    if (characterImgEl) characterImgEl.src = scene.avatar;
+    if (characterImgEl) updateAvatar(scene.avatar);
     
     if (minigameContainer) {
         minigameContainer.innerHTML = "";
@@ -620,7 +655,7 @@ function renderMondayLensMiniGame() {
             const characterImgEl = document.getElementById("character-img");
             if (speakerNameEl) speakerNameEl.innerText = "颜老师 (心理后果演示)";
             if (dialogueTextEl) dialogueTextEl.innerHTML = opt.consequence;
-            if (characterImgEl) characterImgEl.src = "./assets/guide_zeng.png";
+            if (characterImgEl) updateAvatar("./assets/guide_zeng.webp");
             
             renderContinueButton("面对该后果：进行园长决策", () => {
                 state.scenarioStage = "options";
@@ -788,7 +823,7 @@ function renderMiniGame(index) {
                             if (dialogueTextEl) dialogueTextEl.innerHTML = `<b>连线分析结束。</b> 你的归类匹配中存在 ${mismatchCount} 处错置。小王的问题其实是安全边界和归属需求缺口，请园长决策：`;
                         }
                         
-                        if (characterImgEl) characterImgEl.src = "./assets/guide_zeng.png";
+                        if (characterImgEl) updateAvatar("./assets/guide_zeng.webp");
                         state.scenarioStage = "options";
                         minigameContainer.style.display = "none";
                         renderOptions(index);
@@ -1038,7 +1073,7 @@ function renderMiniGame(index) {
                     setTimeout(() => {
                         if (speakerNameEl) speakerNameEl.innerText = "颜老师 (分析指导)";
                         if (dialogueTextEl) dialogueTextEl.innerHTML = "<b>诊断正确！</b> 小王表现出极度的情感耗竭和去个性化（冷漠麻木），已处于严重的“危机期”。请园长进行应对决策：";
-                        if (characterImgEl) characterImgEl.src = "./assets/guide_zeng.png";
+                        if (characterImgEl) updateAvatar("./assets/guide_zeng.webp");
                         state.scenarioStage = "options";
                         minigameContainer.style.display = "none";
                         renderOptions(6);
@@ -1053,7 +1088,7 @@ function renderMiniGame(index) {
                     setTimeout(() => {
                         if (speakerNameEl) speakerNameEl.innerText = "颜老师 (分析指导)";
                         if (dialogueTextEl) dialogueTextEl.innerHTML = `<b>诊断有些偏差。</b> 你诊断小王为“${cleanText}”。其实，她表现出的极度麻木与逃避，已属于最严重的“危机期”。请园长进行应对决策：`;
-                        if (characterImgEl) characterImgEl.src = "./assets/guide_zeng.png";
+                        if (characterImgEl) updateAvatar("./assets/guide_zeng.webp");
                         state.scenarioStage = "options";
                         minigameContainer.style.display = "none";
                         renderOptions(6);
@@ -1106,7 +1141,7 @@ function renderMiniGame(index) {
                 const characterImgEl = document.getElementById("character-img");
                 if (speakerNameEl) speakerNameEl.innerText = "颜老师 (心理干预引导)";
                 if (dialogueTextEl) dialogueTextEl.innerHTML = "（小王跟你完成了深呼吸，哭泣渐止，急促的心率重新归于稳定……）“呼……谢谢园长，我舒服多了。我刚才情绪太失控了，我该怎么办……”";
-                if (characterImgEl) characterImgEl.src = "./assets/guide_zeng.png";
+                if (characterImgEl) updateAvatar("./assets/guide_zeng.webp");
                 
                 state.scenarioStage = "options";
                 minigameContainer.style.display = "none";
@@ -1231,7 +1266,7 @@ function renderMiniGame(index) {
                     setTimeout(() => {
                         if (speakerNameEl) speakerNameEl.innerText = "颜老师 (总结指导)";
                         if (dialogueTextEl) dialogueTextEl.innerHTML = "<b>归类成功！</b> 匿名信反映的是典型的教师职业倦怠与情感耗竭。请园长决定如何建立永久性关怀机制：";
-                        if (characterImgEl) characterImgEl.src = "./assets/guide_zeng.png";
+                        if (characterImgEl) updateAvatar("./assets/guide_zeng.webp");
                         state.scenarioStage = "options";
                         minigameContainer.style.display = "none";
                         renderOptions(9);
@@ -1246,7 +1281,7 @@ function renderMiniGame(index) {
                     setTimeout(() => {
                         if (speakerNameEl) speakerNameEl.innerText = "颜老师 (总结指导)";
                         if (dialogueTextEl) dialogueTextEl.innerHTML = `<b>归类有些偏颇。</b> 你归类为“${cleanTag}”。其实，信中流露出的深度心理耗竭与逃避感，主要属于“职业倦怠”。请园长决定如何建立永久性关怀机制：`;
-                        if (characterImgEl) characterImgEl.src = "./assets/guide_zeng.png";
+                        if (characterImgEl) updateAvatar("./assets/guide_zeng.webp");
                         state.scenarioStage = "options";
                         minigameContainer.style.display = "none";
                         renderOptions(9);
@@ -1303,7 +1338,7 @@ function selectOption(sceneIdx, optIdx) {
     if (minigameContainer) minigameContainer.style.display = "none";
     if (optionsContainer) optionsContainer.innerHTML = "";
     if (speakerNameEl) speakerNameEl.innerText = "颜老师 (管理解析)";
-    if (characterImgEl) characterImgEl.src = "./assets/guide_zeng.png";
+    if (characterImgEl) updateAvatar("./assets/guide_zeng.webp");
     
     if (dialogueTextEl) {
         dialogueTextEl.innerHTML = `${opt.feedback}<br><br><span style="color:var(--primary-color); font-weight:600; cursor:pointer;">[ 点击此处，进入下一个阶段 ]</span>`;
@@ -1358,7 +1393,7 @@ function finishGame() {
     if (descEl) descEl.innerText = personality.desc;
     if (quoteEl) quoteEl.innerText = personality.quote;
     if (adviceEl) adviceEl.innerHTML = personality.advice;
-    if (introGuideEl) introGuideEl.src = "./assets/guide_zeng.png";
+    if (introGuideEl) introGuideEl.src = "./assets/guide_zeng.webp";
     
     setTimeout(() => {
         drawRadarChart(state.radarStats);
@@ -1474,6 +1509,7 @@ function shareReport() {
 }
 
 function init() {
+    preloadImages();
     const btnStart = document.getElementById("btn-start");
     const btnIntroNext = document.getElementById("btn-intro-next");
     const btnRestart = document.getElementById("btn-restart");
