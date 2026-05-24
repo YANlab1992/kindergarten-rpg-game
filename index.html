@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>暖心治园：园长的共情修行——幼儿园教师心理健康管理 RPG</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="game-container">
+        <!-- 音频控制按钮 -->
+        <button id="sound-toggle" class="sound-btn" aria-label="切换声音" title="开/关背景音效">
+            <svg id="sound-icon" viewBox="0 0 24 24" width="24" height="24">
+                <path fill="currentColor" d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM12 4L9.91 6.09L12 8.18V4zm-8 8h4l5 5V7l-5 5H4v2zm0-2h4l1.91-1.91L8 6.18V10H4v2zm12.5-6.03c-2.88 0-5.32 1.95-6.07 4.62l1.45.48c.57-2.02 2.42-3.5 4.62-3.5c2.76 0 5 2.24 5 5s-2.24 5-5 5c-2.2 0-4.05-1.48-4.62-3.5l-1.45.48c.75 2.68 3.19 4.62 6.07 4.62c3.59 0 6.5-2.91 6.5-6.5s-2.91-6.5-6.5-6.5z"/>
+            </svg>
+            <span id="sound-text">已静音</span>
+        </button>
+
+        <!-- 1. 封面屏幕 -->
+        <section id="screen-cover" class="screen active">
+            <div class="cover-content">
+                <div class="title-group">
+                    <span class="subtitle">颜老师·心理健康管理主题研讨</span>
+                    <h1 class="main-title">暖心治园</h1>
+                    <span class="title-tag">园长的共情修行 RPG</span>
+                </div>
+                <p class="cover-desc">
+                    扮演幼儿园园长，直面教师们在日常保教与家园沟通中的情绪困局。<br>
+                    在温情与理性中做出科学决策，修行共情管理之道。
+                </p>
+                <button id="btn-start" class="btn btn-primary">开启修行</button>
+                <div class="cover-footer">
+                    <p>© 2026 颜老师讲座配套互动测评 | 温暖治愈系教育生态风格</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. 引导/自测屏幕 -->
+        <section id="screen-intro" class="screen">
+            <div class="glass-card intro-card">
+                <div class="intro-header">
+                    <img id="intro-guide-img" class="guide-avatar-img" src="./assets/guide_zeng.png" alt="颜老师">
+                    <div class="guide-info">
+                        <h3>主讲人 颜老师</h3>
+                        <p>“管理的起点是看见人，共情的起点是感知情绪。”</p>
+                    </div>
+                </div>
+                <div class="intro-body">
+                    <p class="intro-text">
+                        各位园长，在管理园所前，请静心自问四个问题：
+                    </p>
+                    <ul class="intro-questions">
+                        <li><span class="q-num">1</span> 你能说出园内三位教师最近的情绪状态吗？</li>
+                        <li><span class="q-num">2</span> 你知道教师们最主要的工作压力来源是什么吗？</li>
+                        <li><span class="q-num">3</span> 教师来抱怨，你的第一反应是给方案还是倾听共情？</li>
+                        <li><span class="q-num">4</span> 你是否定期与教师进行非正式谈心，不聊工作只聊生活？</li>
+                    </ul>
+                    <p class="intro-tip">
+                        让教师崩溃的往往不是工作累，而是心里苦。接下来，请走进真实的情境……
+                    </p>
+                </div>
+                <button id="btn-intro-next" class="btn btn-primary">进入园所</button>
+            </div>
+        </section>
+
+        <!-- 3. 游戏主界面 -->
+        <section id="screen-gameplay" class="screen">
+            <div class="day-indicator">
+                <span id="current-day">星期一</span>
+                <span id="current-period">上午</span>
+            </div>
+
+            <!-- 核心交互与对话面板 (包含内置防遮挡头像) -->
+            <div class="interaction-panel">
+                <div class="dialogue-header-wrapper">
+                    <div class="dialogue-avatar-box">
+                        <img id="character-img" class="avatar-pic" src="./assets/guide_zeng.png" alt="角色头像">
+                    </div>
+                    <div class="speaker-meta">
+                        <span id="speaker-name" class="speaker-tag">颜老师</span>
+                    </div>
+                </div>
+
+                <!-- 对话正文区 -->
+                <div class="dialogue-box">
+                    <p id="dialogue-text" class="dialogue-content">
+                        游戏加载中...
+                    </p>
+                </div>
+
+                <!-- 微游戏交互区域 -->
+                <div id="minigame-container" class="minigame-box" style="display: none;">
+                    <!-- 动态生成各关卡微游戏 -->
+                </div>
+
+                <!-- 答题选项区 -->
+                <div id="options-container" class="options-group">
+                    <!-- 动态生成选项 -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. 报告结算界面 (网易云音乐评测风) -->
+        <section id="screen-report" class="screen">
+            <div class="report-wrapper">
+                
+                <!-- 左侧：网易云测评卡片 -->
+                <div class="report-card" id="share-card">
+                    <div class="card-inner">
+                        <div class="card-header">
+                            <span class="card-tag">共情治理 · 暖心测评</span>
+                            <span class="card-user">园长修行档案</span>
+                        </div>
+                        
+                        <div class="card-body">
+                            <div class="personality-title-box">
+                                <span class="desc-prefix">您的共情管理底色是</span>
+                                <h2 id="personality-title">生态共生型·深根橡树</h2>
+                            </div>
+
+                            <p id="personality-desc" class="personality-description">
+                                你的管理如林间晨光，照亮了每位教师心底的潮湿。你不仅听懂了她们的叹息，更在她们肩上披上一件温暖却坚固的防雨外衣。
+                            </p>
+
+                            <!-- 雷达图 -->
+                            <div class="chart-section">
+                                <canvas id="radarChart" width="280" height="280"></canvas>
+                            </div>
+                            
+                            <div class="quote-section">
+                                <p class="quote-text" id="personality-quote">
+                                    “管理的起点是看见人，共情的起点是感知情绪。”
+                                </p>
+                                <span class="quote-author">— 颜老师《定心治园与共情引领》</span>
+                            </div>
+                        </div>
+                        
+                        <div class="card-footer">
+                            <div class="qr-placeholder">
+                                <div class="qr-box">
+                                    <div class="qr-dots"></div>
+                                </div>
+                                <span class="qr-text">扫码重温暖心力量</span>
+                            </div>
+                            <div class="logo-area">
+                                <h3>暖心治园</h3>
+                                <p>共情引领 · 教师心理健康管理</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 右侧：诊断建议 -->
+                <div class="report-sidebar">
+                    <div class="glass-card advice-card">
+                        <h3>📋 园长管理心药方</h3>
+                        <div id="advice-content" class="advice-details">
+                            <!-- 动态注入建议 -->
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button id="btn-restart" class="btn btn-secondary">重新修行</button>
+                        <button id="btn-share" class="btn btn-primary btn-glow">分享修行档案</button>
+                    </div>
+                </div>
+                
+            </div>
+        </section>
+    </div>
+
+    <!-- 预加载音频元素 -->
+    <audio id="bg-music" loop>
+        <source src="https://assets.mixkit.co/active_storage/sfx/2568/2568-84.wav" type="audio/wav">
+    </audio>
+
+    <script src="app.js"></script>
+</body>
+</html>
